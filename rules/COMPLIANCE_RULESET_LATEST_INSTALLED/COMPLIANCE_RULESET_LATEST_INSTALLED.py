@@ -1,4 +1,4 @@
-# Copyright 2017-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# Copyright 2017-2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"). You may
 # not use this file except in compliance with the License. A copy of the License is located at
@@ -21,15 +21,15 @@ import botocore
 ##############
 
 # Define the Bucket prefix where the ruleset template are posted in the Compliance Account.
-BUCKET_PREFIX = 'compliance-engine-codebuild-output'
+BUCKET_PREFIX = 'compliance-acc-codebuild-output'
 DEFAULT_TEMPLATE = 'default.json'
 
 # Role Arn of the CodePipeline, assumed to allow the lambda to trigger auto-deployment of the default template
 ROLE_NAME_CODEPIPELINE = 'ComplianceEngine-CodePipelineRole'
-CODEPIPELINE_NAME = 'Compliance-Engine-Pipeline'
+CODEPIPELINE_NAME = 'compliance-acc-Pipeline'
 
 # Name of the Firehose to record all evaluations of all the rules in all accounts
-FIREHOSE_NAME = 'Firehose-Compliance-Engine'
+FIREHOSE_NAME = 'Firehose-compliance-acc'
 
 # Define the default resource to report to Config Rules
 DEFAULT_RESOURCE_TYPE = 'AWS::::Account'

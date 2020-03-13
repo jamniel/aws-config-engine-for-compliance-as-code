@@ -1,0 +1,10 @@
+{
+  "AllActiveRegions":
+  {
+    "us-east-1": {
+      "LambdaSubnets": "subnet-d4ffca88,subnet-33785054",
+      "LambdaSecurityGroups": "sg-0f983006545515d94,sg-f71c8ba9"
+    },
+    "us-east-2": {}
+  }
+}
