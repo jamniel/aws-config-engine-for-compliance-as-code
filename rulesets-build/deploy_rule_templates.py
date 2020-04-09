@@ -3,7 +3,6 @@ import json
 import re
 import time
 import boto3
-import botocore
 import add_rule_tags
 
 main_region = sys.argv[1]
@@ -27,8 +26,6 @@ if other_regions != 'none':
 
 s3 = boto3.resource('s3')
 s3_client = boto3.client('s3')
-config = s3_client._client_config
-config.signature_version = botocore.UNSIGNED
 
 for region in all_region_list:
     template_bucket_name = template_bucket_name_prefix + '-' + region
@@ -56,9 +53,6 @@ for region in all_region_list:
         if not template:
             default_obj = s3.Object(template_bucket_name, default_template_name)
             template = default_obj.get()['Body'].read().decode('utf-8')
-            template_url = boto3.client('s3', config=config).generate_presigned_url('get_object', ExpiresIn=0, Params={'Bucket': template_bucket_name, 'Key': default_template_name })
-        else:
-            template_url = boto3.client('s3', config=config).generate_presigned_url('get_object', ExpiresIn=0, Params={'Bucket': template_bucket_name, 'Key': key + ".json"})
 
         remote_session = None
         try:
@@ -83,7 +77,7 @@ for region in all_region_list:
             print("Attempting to update Rule stack.")
             update_response = cfn.update_stack(
                 StackName=stack_name,
-                TemplateURL=template_url,
+                TemplateBody=template,
                 Parameters=[
                     {
                         'ParameterKey': 'LambdaAccountId',
@@ -102,7 +96,7 @@ for region in all_region_list:
                     print("Stack not found. Attempting to create Rule stack.")
                     create_response = cfn.create_stack(
                         StackName=stack_name,
-                        TemplateURL=template_url,
+                        TemplateBody=template,
                         Parameters=[
                             {
                                 'ParameterKey': 'LambdaAccountId',
